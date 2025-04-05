@@ -1,13 +1,14 @@
-import React, { useContext, useState } from "react";
-import { assets } from "../assets/assets.ts";
+import { useState } from "react";
 import { useAdminContext } from "../context/AdminContext.tsx";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useDoctorContext } from "../context/DoctorContext.tsx";
 
 const Login = () => {
   const [state, setState] = useState("Admin");
 
   const { setAToken, backendUrl } = useAdminContext();
+  const { setDToken } = useDoctorContext();
 
   console.log("backendUrl", backendUrl);
 
@@ -34,6 +35,18 @@ const Login = () => {
           toast.error(data.message);
         }
       } else {
+        const { data } = await axios.post(backendUrl + "/api/doctor/login", {
+          email,
+          password,
+        });
+
+        if (data.success) {
+          localStorage.setItem("dToken", data.token);
+          setDToken(data.token);
+          console.log("data.token", data.token);
+        } else {
+          toast.error(data.message);
+        }
       }
     } catch (error) {}
   };

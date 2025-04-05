@@ -80,8 +80,15 @@ export interface DashData {
     appointments: number;
     patients: number;
     latestAppointments: Appointment[]
-
 }
+export interface DoctorDashData {
+    earning: number;
+    appointments: number;
+    patients: number;
+    latestAppointments: Appointment[]
+}
+
+
 
 export interface AdminContextType {
     aToken: string | null;
@@ -103,4 +110,19 @@ export interface AppContextType {
     calculateAge: (dob: string) => number;
     currency: string;
     slotDateFormat: (slotDate: string) => string;
+}
+export interface DoctorContextType {
+    dToken: string | null;
+    setDToken: (token: string) => void;
+    backendUrl: string;
+    appointments: Appointment[];
+    setAppointments: Dispatch<SetStateAction<Appointment[]>>;
+    getAppointments: () => void;
+    completeAppointment: (appointmentId: string) => void;
+    cancelAppointment: (appointmentId: string) => void;
+    getDoctorDashData: () => void;
+    getProfileData: () => void;
+    setProfileData: Dispatch<SetStateAction<Doctor>>;
+    profileData: Doctor;
+    dashData: DoctorDashData;
 }
